@@ -281,7 +281,7 @@ class _StableRLM(sm.RLM):
             wls_results = fake_wls.results(start_params)
 
         if not init:
-            self.scale = self._estimate_scale(wls_results.resid)
+            self.scale = self._estimate_scale(wls_results.resid, self.scale_est)
 
         history = dict(params=[np.inf], scale=[])
         if conv == 'coefs':
@@ -317,7 +317,7 @@ class _StableRLM(sm.RLM):
             ).fit(method='pinv')
 
             if update_scale is True:
-                self.scale = self._estimate_scale(wls_results.resid)
+                self.scale = self._estimate_scale(wls_results.resid, self.scale_est)
 
             history = self._update_history(wls_results, history, conv)
             iteration += 1
